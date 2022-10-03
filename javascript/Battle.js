@@ -58,9 +58,10 @@ function solution(B) {
         return cells
     }
 
-
+    found = []
     for (x = 0; x < B.length; x++) {
         for (y = 0; y < B[x].length; y++) {
+            if (found.some((cell) => cell.x == x && cell.y == y)) continue
 
             boat = scan(x, y)
 
@@ -68,12 +69,10 @@ function solution(B) {
             if (boat.length == 2) {
                 boat = scan(boat[1].x, boat[1].y)
                 if (boat.length == 2) submarines++
-
             }
             if (boat.length == 3) destroyers++
 
-            for (cell of boat)
-                B[cell.x] = B[cell.x].replace(new RegExp('^(.{' + cell.y + '}).(.*)$'), '$1O$2')
+            for (cell of boat) found.push(cell)
         }
     }
 
